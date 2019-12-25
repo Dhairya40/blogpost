@@ -261,7 +261,7 @@
                       break;   
                   };
                   $('#btn_blogpost').prop('disabled',false);
-            			// setTimeout(function(){location.reload();},4000);
+            			setTimeout(function(){location.reload();},4000);
             		},
             		errer:function() {
             			alert('Something Went Worng!!');

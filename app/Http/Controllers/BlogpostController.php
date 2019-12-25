@@ -13,7 +13,7 @@ class BlogpostController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth','admin']);
+        $this->middleware(['auth']);
     }
     /**
      * Display a listing of the resource.
@@ -45,19 +45,24 @@ class BlogpostController extends Controller
     {
         $validator = Validator::make($request->all(), [
         'user_id' => 'required'
-       ]);
+        ]);
          if ($validator->fails()) {
             $data['status']  = 'errer';
             $data['message'] = '<span class"alert alert-danger" style="color:red;">OPPS!! Somthing Went Wrong!!</span>';
             return $data;
         }
 
-        if (!empty($request->user_id)) {       
+        if (!empty($request->user_id)) {   
+        $path    = public_path('blogpost_files');    
+        if(!is_dir($path)){
+          $path  =  mkdir($path, 0777, true);
+        }    
         
         if($request->file('thumbnail1')){
         $image=$request->file('thumbnail1');
         $newimg=time().'_'.$image->getClientOriginalname();
-        $image->move(public_path('images'), $newimg); 
+
+        $image->move($path, $newimg); 
          }else{
         $newimg='img.jpg';
         }
@@ -65,22 +70,22 @@ class BlogpostController extends Controller
         if($request->file('thumbnail2')){
         $image=$request->file('thumbnail2');
         $newimg1=time().'_'.$image->getClientOriginalname();
-        $image->move(public_path('images'), $newimg1); 
+        $image->move($path, $newimg1); 
         }else{
         $newimg1='img.jpg';
         }
 
         if($request->file('video1')){
-        $video_1=$request->file('video1');
-        $video1=time().'_'.$video_1->getClientOriginalname();
-        $video_1->move(public_path('video'), $video1); 
+        $video_1 = $request->file('video1');
+        $video1  = time().'_'.$video_1->getClientOriginalname();
+        $video_1->move($path, $video1); 
         }else{
         $video1='img.jpg';
         }
         if($request->file('video2')){
         $video_2=$request->file('video2');
         $video2=time().'_'.$video_2->getClientOriginalname();
-        $video_2->move(public_path('images'), $video2); 
+        $video_2->move($path, $video2); 
         }else{
         $video2='img.jpg';
         }  

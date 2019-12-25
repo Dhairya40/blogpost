@@ -78,177 +78,9 @@
                                 </div>
                                
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                        <ul class="nav nav-tabs" role="tablist" id="myTab">
-                                                <li class="nav-item active">
-                                                  <a class="nav-link active" href="#profile" role="tab" data-toggle="tab"><i class="fa fa-user-circle"></i> Perfile Info</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                  <a class="nav-link" href="#buzz" role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i> Create Post</a>
-                                                </li>                                                
-                                              </ul>
-                                              
-                                              <!-- Tab panes -->
-                                              <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane fade show active" id="profile">
-                                                        <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <label>ID</label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <p>{{ $record->id }}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <label>Role</label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <p>{{ Auth()->user()->role->name}}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <label>Email</label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <p>{{ $record->email }}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <label>Phone</label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                              <p>{{ (Auth()->user()->profile->phone) ? Auth()->user()->profile->phone: 'Not Defined' }}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <label>Profesion</label>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <p>Developer</p>
-                                                                </div>
-                                                            </div>
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane fade" id="buzz">
-                               <div class="row">
-                                    <form class="form-horizontal" id="blogpost_form" action="{{route('profile.update', $record->id)}}" method="post" enctype="multipart/form-data" style="width: 80%">
-                                       @csrf     
-                                       @if(isset(Auth::user()->name))
-                                       @method('PUT')
-                                       @endif 
-                                       <div class="row">    
-                                          <div class="col">
-                                            <b><label for="author-name" id="author" class="col-form-label">Author:</label></b>
-                                            <input type="text" name="author" class="form-control" id="author" required="requred">
-                                          </div>
-                                          <div class="col">
-                                            <b><label for="title" class="col-form-label">Title:</label></b>
-                                            <input type="text" name="title" id="title" class="form-control" required="requred" >
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                          <div class="col">
-                                            <b><label for="heading" class="col-form-label">Heading:</label></b>
-                                            <input type="text" id="heading" name="heading" class="form-control" required="requred" >
-                                          </div>
-                                          <div class="col">
-                                            <b><label for="blogpost_types_id" class="col-form-label">Post Type:</label></b>
-                                            <select class="form-control" name="blogpost_types_id" id="blogpost_types_id">
-                                              <option value="" title="Please Select One" disabled>Please Select One</option>
-                                              @if(!empty($blogtype))
-                                              @foreach($blogtype as $row)
-                                              <option value="{{ $row->id }}" title="{{ $row->description}}">{{ $row->name }}</option>
-                                              @endforeach
-                                              @endif 
-                                            </select>
-                                          </div>
-                                      </div>
-                                      <div class="row">
-                                            <b><label for="short_content" class="col-form-label">Short Content:</label></b>
-                                            <input type="text" class="form-control" name="short_content" placeholder="Short Description Here...">
-                                          </ > 
-                                      </div>
-                                      <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Long Description-2(Optional)</label></b>
-                                            <textarea name="lomg_content2" id="long_content2" placeholder="Long Description-2 Here..." class="form-control"></textarea>  
-                                          <!-- </div> -->
-                                      </div>
-                                      <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Long Description(Optional)</label></b>
-                                             <textarea  name="long_content1" id="long_content1" placeholder="Long Description Here..." class="form-control"></textarea> 
-                                           <!-- </div> -->
-                                      </div>
-                                      <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Blog Thumbnail</label></b>
-                                            <input type="file" name="thumbnail1" id="thumbnail1" class="form-control"> 
-                                          <!-- </div> -->
-                                      </div>
-                                      <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Another Thumbnail(Optional)</label></b>
-                                            <input type="file" name="thumbnail2" id="thumbnail2" class="form-control">
-                                          <!-- </div> -->
-                                      </div>
-                                        <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Blog Video(Optional)</label></b>
-                                            <input type="file" name="video1" id="video1" class="form-control">
-                                          <!-- </div> -->
-                                      </div>
-                                      <div class="row">
-                                          <!-- <div class="form-group"> -->
-                                            <b><label>Another Video(Optional)</label></b>
-                                            <input type="file" name="video2" id="video2" class="form-control">
-                                          <!-- </div> -->
-                                      </div> 
-                                       
-                                      </div>
-                                      <div class="modal-footer"> 
-                                        <button type="submit" id="btnBlogpost" class="btn btn-primary">Save changes</button>
-                                      </div>
-                                    </form>                
-                                            <div class="row">
-                                             <div class="col-md-12">
-                                             <label>Your Bio</label>
-                                                  <br/>
-                                      <p>Your detail description</p>
-                                                </div>
-                                            </div>
-                                </div>
-                                
-                              </div>
-                          
-                                </div>
-                                <!-- <div class="col-md-4 img-main-rightPart">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row image-right-part">
-                                                <div class="col-md-6 pull-left image-right-detail">
-                                                    <h6>PUBLICIDAD</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a href="http://camaradecomerciozn.com/">
-                                            <div class="col-md-12 image-right">
-                                                <img src="http://pluspng.com/img-png/bootstrap-png-bootstrap-512.png">
-                                            </div>
-                                        </a>
-                                        <div class="col-md-12 image-right-detail-section2">
-
-                                        </div>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
+                        </div> 
+                               <!-- Blog post form -->
+                               @include('frontend.partial.post_form') 
                     </div>
                 </div>
             </div>
@@ -291,78 +123,7 @@
  </div>
  
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{ Auth::user()->name }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="profileForm" action="{{route('profile.update', $record->id)}}" method="post" enctype="multipart/form-data">
-           @csrf     
-           @if(isset(Auth::user()->name))
-           @method('PUT')
-           @endif
-      <div class="modal-body">
-        <div id="loading" class="loading style-2" style="display: none;"><div class="loading-wheel"></div></div>             
-          <div class="form-group">
-            <label for="recipient-name" id="name" class="col-form-label">Name:</label>
-            <input type="text" name="name" value="{{ $record->profile->name}}" class="form-control" id="name"  @if(isset($record->profile->name)) required="requred" @endif >
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Address:</label>
-            <input type="text" name="address" value="{{ $record->profile->address}}" id="address" class="form-control" @if(isset($record->profile->address)) required="requred" @endif>
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Phone:</label>
-            <input type="text" id="phone" value="{{ $record->profile->phone }}" name="phone" class="form-control" @if(isset($record->profile->phone)) required="requred" @endif >
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Country:</label>
-            <select class="form-control" name="country" id="country_id">
-              <option value="" title="Please Select One">Please Select One</option>
-              @if(!empty($country))
-              @foreach($country as $row)
-              <option value="{{ $row->id }}" @if($record->profile->country==$row->id){{ "selected=='selected'" }} @endif title="{{ $row->description}}">{{ $row->name }}</option>
-              @endforeach
-              @endif 
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">State:</label>
-            <select class="form-control" name="state" id="state_id">
-            <option value="">Please Select Country First</option>
-             
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">City:</label>
-            <input type="text" name="city" value="{{ $record->profile->city  }}" class="form-control" id="city" @if(isset($record->profile->city)) required="requred" @endif >
-          </div>
-          <div class="form-group">
-            <label for="image" class="col-form-label">Profiel Image: @if($record->profile->profile_image)<i class="fa fa-check-circle" title="Change Profile" style="font-size:20px;color:green"></i> @else <i class="fa fa-times-circle-o" title="Upload Profile" aria-hidden="true" style="font-size:20px;color:red"></i> @endif</label>
-            <input type="file" name="image" class="form-control" id="profile_image">
-          </div>
-          <div class="form-group">
-            <label for="image" class="col-form-label">Background Profiel Image: @if(isset($record->profile->back_profile))<i class="fa fa-check-circle" style="font-size:20px;color:green" title="Change Background Image"></i> @else <i class="fa fa-times-circle-o" title="Upload Background Image" aria-hidden="true" style="font-size:20px;color:red"></i> @endif</label>
-            <input type="file" name="back_profile" class="form-control" id="back_profile">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">About:</label>
-            <textarea class="form-control" name="about" id="message-text"> {{ $record->profile->about }}</textarea>
-          </div>
-       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id="btnProfile" class="btn btn-primary">Save changes</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
+@include('frontend.partial.profile')
 @endsection
 
 @section('script')
@@ -512,6 +273,91 @@
 
 });
 </script>
+
+<!-- Submit Blogpost -->
+
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+     $('#blogpost_form').validate({ // initialize the plugin
+        rules: {
+            author: {
+                required: true
+             },
+            title: {
+                required: true, 
+                minlength:6                 
+            },
+            heading: {
+                required: true, 
+                minlength:6          
+            },
+            short_content: {
+                required: true, 
+                minlength:15          
+            },
+            long_content1: {
+                required: true, 
+                minlength:6                 
+            }  
+        },
+        // submitHandler: function (form) { // for demo
+        //      if ($(form).valid()) 
+           //     form.submit(); 
+           //     return false; // prevent normal form posting
+        // }
+    });
+
+        $('#btnBlogpost').on('click', function(){
+            if (!$("#blogpost_form").valid()) { // Not Valid
+                return false;
+            } else {
+                var data = $('#blogpost_form').serialize();
+                $.ajax({
+                    method:'post',
+                    data:new FormData($("#blogpost_form")[0]),
+                    url:'{{route("blogpost.store")}}',
+                    cache:  false,
+                dataType:'json',
+                contentType: false, 
+                processData: false,
+                    beforeSend:function(){
+                        $('#btnBlogpost').prop('disabled',true);
+                        $('#btnBlogpost').html('Please Wait!!');
+                    },
+                    success:function(result){ 
+                    switch(result.status){
+                      case 'success':
+                            $.toast({
+                            title: result.message ,
+                            delay: 10000,
+                        container: $("#my_container")
+                          });
+                      break;
+                      case 'errer':
+                         $.toast({
+                            title: result.message ,
+                            delay: 10000,
+                            container: $("#my_container")
+                        });
+                      break;
+                      default:
+                      alert('Invalid Responce!!!');   
+                      break;   
+                  };
+                  $('#btn_blogpost').prop('disabled',false);
+                         setTimeout(function(){location.reload();},4000);
+                    },
+                    errer:function() {
+                        alert('Something Went Worng!!');
+                    }
+                });
+             }
+     });
+
+});
+ </script>
 
 <script>
 $(document).ready(function(){
