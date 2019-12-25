@@ -191,14 +191,7 @@
 </div>
 @section('script')
 <script type="text/javascript">
-  $('#btn_trashed').click(function(){
-    $.toast({
-    title: 'result.message dgdfgdd',
-    delay: 60000000 ,
-    container: $("#my_container")
-
-  });
-  });
+   
 	$(document).ready(function () {
      $('#blogpost_form').validate({ // initialize the plugin
         rules: {
@@ -240,23 +233,20 @@
             		data:new FormData($("#blogpost_form")[0]),
             		url:'{{route("blogpost.store")}}',
              		cache:  false,
-	                dataType:'json',
-	                contentType: false, 
-	                processData: false,
+                dataType:'json',
+                contentType: false, 
+                processData: false,
             		beforeSend:function(){
             			$('#btn_blogpost').prop('disabled',true);
             			$('#btn_blogpost').html('Please Wait!!');
             		},
-            		success:function(result){
-                  alert(result.user_id);
-                  alert(result);
+            		success:function(result){ 
                     switch(result.status){
                       case 'success':
                 			$.toast({
     		                title: result.message ,
      		                delay: 10000,
                         container: $("#my_container")
-
     		              });
                       break;
                       case 'errer':
@@ -264,7 +254,6 @@
                             title: result.message ,
                             delay: 10000,
                             container: $("#my_container")
-
                         });
                       break;
                       default:

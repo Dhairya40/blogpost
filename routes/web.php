@@ -41,11 +41,18 @@ Route::get('/show/{id}', 'CrudController@show');
 Route::get('/editrec/{id}', 'CrudController@edit');
 Route::post('/ajaxupdate/', 'CrudController@update');
 
-Route::resource('blogpost','BlogpostController');
+Route::resource('/blogpost','BlogpostController');
+Route::resource('/profile', 'ProfileController');
 
-Route::group(['as' => 'admin.'], function(){
+
+Route::group(['as' => 'admin.','middleware' => ['auth','admin']], function(){
       Route::get('/admin', 'AdminController@index')->name('index');
 });
+
+Route::group(['as'=>'user.','middleware'=>['auth'],'prefix'=>'user'],function(){
+   Route::get('getstate/{id?}', 'ProfileController@getStateBycountry')->name('state');
+});
+
 
 Route::get('about', 'HomeController@about')->name('about');
 Route::get('contact', 'HomeController@contact')->name('contact');

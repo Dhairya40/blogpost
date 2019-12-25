@@ -20,9 +20,9 @@ class Profile extends Model
         'user_id', 'name','address','country','state','city','phone',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo('App\user');
+        return $this->belongsToMany('App\user');
     }
 
 }

@@ -231,8 +231,7 @@ Add Record
 		 
 		// if (errorFlag) 	return false
 			$('#errormsg').css({'display':'none'});
-		alert('first_name');
-			$.ajax({
+ 			$.ajax({
                 method:'post', 
                 data:new FormData($("#Form2")[0]),
                 url:'{{url("/ajaxupdate")}}', 

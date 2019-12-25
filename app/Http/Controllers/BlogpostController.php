@@ -91,7 +91,7 @@ class BlogpostController extends Controller
         $insData['video2']     = $video2;
         $recordData = blogpost::create($insData);  
         // dd(DB::getQueryLog());
-         if ($recordData) {
+        if ($recordData) {
             $data['status']  = 'success';
             $data['message'] = '<span class"alert alert-success" style="color:green;">Record Has Been Saved SuccessFull</span>';
         }else{

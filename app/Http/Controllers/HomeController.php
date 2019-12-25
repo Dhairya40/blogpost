@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Country;
 
 class HomeController extends Controller
 {
@@ -24,9 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $record = Auth::user();
-        // print_r($record);
-        return view('home',compact('record'));
+        $record  = Auth::user();
+        $country = country::all();
+        return view('home',compact('record','country'));
     }
 
     public function about()
