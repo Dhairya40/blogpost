@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Country;
+use App\BlogpostType;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,8 @@ class HomeController extends Controller
     {
         $record  = Auth::user();
         $country = country::all();
-        return view('home',compact('record','country'));
+        $blogtype = BlogpostType::all();
+        return view('home',compact('record','country','blogtype'));
     }
 
     public function about()
