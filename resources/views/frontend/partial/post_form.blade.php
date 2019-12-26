@@ -58,7 +58,7 @@
         </div>
         <div class="col">
           <b><label for="blogpost_types_id" class="col-form-label">Post Type:</label></b>
-          <select class="form-control" name="blogpost_types_id" id="blogpost_types_id">
+          <select class="form-control" name="blogpost_type_id" id="blogpost_types_id">
             <option value="" title="Please Select One" disabled>Please Select One</option>
             @if(!empty($blogtype))
             @foreach($blogtype as $row)
