@@ -1,6 +1,22 @@
 @extends('layouts.master')
 @section('title')Home | Welcome Guest!! @endsection
 @section('home_active') active @endsection
+
+@section('css')
+<style type="text/css">
+  .blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+
+
+}
+</style>
+@endsection
 @section('content')
     <div class="container">
   <header class="blog-header py-3">
@@ -22,19 +38,12 @@
 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
-      <a class="p-2 text-muted" href="#">World</a>
-      <a class="p-2 text-muted" href="#">U.S.</a>
-      <a class="p-2 text-muted" href="#">Technology</a>
-      <a class="p-2 text-muted" href="#">Design</a>
-      <a class="p-2 text-muted" href="#">Culture</a>
-      <a class="p-2 text-muted" href="#">Business</a>
-      <a class="p-2 text-muted" href="#">Politics</a>
-      <a class="p-2 text-muted" href="#">Opinion</a>
-      <a class="p-2 text-muted" href="#">Science</a>
-      <a class="p-2 text-muted" href="#">Health</a>
-      <a class="p-2 text-muted" href="#">Style</a>
-      <a class="p-2 text-muted" href="#">Travel</a>
-    </nav>
+      @if(!empty($blogtype))
+      @foreach($blogtype as $row )
+      <a class="p-2 text-muted" href="{{ $row->slug }}">{{ $row->name }}</a> 
+      @endforeach
+      @endif 
+     </nav>
   </div>
 
   <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
@@ -44,14 +53,23 @@
       <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
     </div>
   </div>
-
   <div class="row mb-2">
+    @if(!empty($blogpost))
+    @foreach($blogpost as $post)
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2 text-primary">World</strong>
+          @if(!empty($post->BlogpostType))
+          <strong class="d-inline-block mb-2 text-primary">{{ $post->BlogpostType->name }}</strong>
+          @else
+          <strong class="d-inline-block mb-2 text-primary">Test</strong>
+          @endif
           <h3 class="mb-0">
-            <a class="text-dark" href="#">Featured post</a>
+            @if($post->is_featured)
+            <span class="text-dark blink_me " style="background: red;color: white !important;">Featured post</span>
+            @else
+            <span class="text-dark">{{ str_limit($post->title, $limit=20, $end=' ...') }}</span>
+            @endif
           </h3>
           <div class="mb-1 text-muted">Nov 12</div>
           <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
@@ -60,6 +78,12 @@
         <svg class="bd-placeholder-img card-img-right flex-auto d-none d-lg-block" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
       </div>
     </div>
+    @endforeach
+   
+    <div class="col-md-12">
+      {!! $blogpost->links() !!}
+    </div>
+     @else
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
@@ -74,6 +98,7 @@
         <svg class="bd-placeholder-img card-img-right flex-auto d-none d-lg-block" width="200" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"/><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
       </div>
     </div>
+    @endif
   </div>
 </div>
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Country;
 use App\BlogpostType;
+use App\Blogpost;
 
 class HomeController extends Controller
 {
@@ -30,6 +31,13 @@ class HomeController extends Controller
         $country = country::all();
         $blogtype = BlogpostType::all();
         return view('home',compact('record','country','blogtype'));
+    }
+
+    public function home()
+    { 
+        $blogtype = BlogpostType::all();
+        $blogpost = blogpost::with('BlogpostType')->paginate(10);
+        return view('frontend.index',compact('blogtype','blogpost'));
     }
 
     public function about()

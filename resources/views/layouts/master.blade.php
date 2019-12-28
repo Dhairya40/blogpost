@@ -13,6 +13,7 @@
     <link href="{{ url('public/css/app.css') }}" rel="stylesheet">
 
      <title>@yield('title')</title>
+     @yield('css') 
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
