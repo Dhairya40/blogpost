@@ -53,6 +53,7 @@
               <th>Sr. No.</th>
               <th>Author</th>
               <th>Title</th>
+              <th>Slug</th>
               <th>Posted By</th>
               <th>Headding</th>
               <th>Short Desc.</th>
@@ -68,6 +69,7 @@
               <td>{{ ($post->id) ? $post->id:'1' }}</td>
               <td>Admin</td>
               <td>{{ str_limit(($post->title) ? $post->title:'Dummy', $limit=20, $end='...') }}</td>
+              <td>{{ $post->slug }}</td>
               <td>{{ $post->user->name}} </td>
               <td>{{ str_limit(($post->heading) ? $post->heading:'Dummy', $limit=20, $end='...') }}</td>
               <td>{{ str_limit(($post->short_content) ? $post->short_content:'Dummy', $limit=20, $end='...') }}</td>

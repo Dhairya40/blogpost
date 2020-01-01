@@ -52,6 +52,13 @@
         	</div>
         	</div>
         	</div>
+            <div class="form-group">
+                <b><label><li class="text-danger"></li> Slug</label></b>
+                <input type="text" class="form-control" onkeyup="convertToSlug(this.value)" placeholder="Enter Post Slug..." required>
+                <p class="small">{{url('/')}}/<span id="url">{{@$category->slug}}</span></p>
+                <input type="hidden" class="form-control" id="slug" value="{{@$category->slug}}" name="slug" aria-describedby="title" placeholder="Enter slug"> 
+            </div>
+
         	<div class="form-group">
         		<b><label>Long Description(Optional)</label></b>
         		 <textarea  name="long_content1" id="long_content1" placeholder="Long Description Here..." class="form-control"></textarea> 
@@ -87,3 +94,20 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  function convertToSlug(str)
+{
+     //replace all special characters | symbols with a space
+  str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
+  
+  // trim spaces at start and end of string
+  str = str.replace(/^\s+|\s+$/gm,'');
+  
+  // replace space with dash/hyphen
+  str = str.replace(/\s+/g, '-'); 
+  document.getElementById("url").innerHTML= str;
+  $('#slug').val(str);
+  //return str;
+}
+</script>

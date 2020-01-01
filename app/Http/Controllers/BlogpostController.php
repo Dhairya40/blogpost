@@ -46,7 +46,7 @@ class BlogpostController extends Controller
     {
         $validator = Validator::make($request->all(), [
         'user_id' => 'required',
-        'slug'    => 'required|unique:blogpost,slug',
+        'slug'    => 'required|unique:blogposts,slug',
         ]);
          if ($validator->fails()) {
             $data['status']  = 'errer';
