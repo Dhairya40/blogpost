@@ -16,9 +16,21 @@
 //     return view('frontend.index');
 // });
 
-Route::get('/', 'HomeController@home')->name('home');
+//first 
+ Auth::routes();
+
+Auth::routes(['verify' => true]);
+
+
+Route::get('/',       'FrontendController@home')->name('home');
+Route::get('about',   'FrontendController@about')->name('about');
+Route::get('contact', 'FrontendController@contact')->name('contact');
+
+Route::get('/filter/{id?}',  'FrontendController@filter')->name('filter');
+Route::get('/search',  'FrontendController@search')->name('search');
+
+
  
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/crud', 'CrudController@index');
@@ -49,6 +61,8 @@ Route::resource('/profile', 'ProfileController');
 
 Route::group(['as' => 'admin.','middleware' => ['auth','admin']], function(){
       Route::get('/admin', 'AdminController@index')->name('index');
+      Route::get('admin/userlist', 'AdminController@userlist')->name('userlist');
+      Route::get('admin/postlist', 'AdminController@postlist')->name('postlist');
 });
 
 Route::group(['as'=>'user.','middleware'=>['auth'],'prefix'=>'user'],function(){
@@ -56,5 +70,3 @@ Route::group(['as'=>'user.','middleware'=>['auth'],'prefix'=>'user'],function(){
 });
 
 
-Route::get('about', 'HomeController@about')->name('about');
-Route::get('contact', 'HomeController@contact')->name('contact');

@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-class AdminAutnenticated
+
+class Nextredirect
 {
     /**
      * Handle an incoming request.
@@ -14,10 +14,7 @@ class AdminAutnenticated
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {    
-        if (Auth::user()->role->name == 'customer') {
-            return redirect('/home')->with('error_message','OPPS!! Your are not allow to access to this Page!!!');
-        }
+    {
         return $next($request);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title') Welcome! {{ $record->name }}@endsection
+@section('title') Welcome! | {{ $record->name }} @endsection
 
 @section('css')
 <style type="text/css">
@@ -30,6 +30,7 @@
     @endif
     <div class="container main-secction">
         <div class="row">
+           
             <div class="col-md-12 col-sm-12 col-xs-12 image-section">
                 @if(!isset($record->profile->back_profile))
                 <img src="{{ url('public/images/img.jpg')}}">
@@ -42,7 +43,7 @@
                 <div class="col-md-3 col-sm-3 col-xs-12 user-profil-part pull-left">
                     <div class="row ">
                         <div class="col-md-12 col-md-12-sm-12 col-xs-12 user-image text-center">
-                            @if(!isset($record->profile->back_profile))
+                            @if(empty($record->profile->profile_image))
                             <img src="{{ url('public/images/generic-user-purple.png')}}" class="rounded-circle">
                             @else
                             <img src="{{ url('public/user_image')}}/{{ $record->profile->profile_image }}" class="rounded-circle img-responsive">
@@ -69,12 +70,17 @@
                                 <div class="col-md-8 col-sm-6 col-xs-6 profile-header-section1 pull-left">
                                     <h1>{{ $record->name }}</h1>
                                     <h5>Developer</h5>
+                                    @if($record->role->name =='admin')
+                                    <a target="_blank" href="{{url('admin') }}" class="btn btn-warning text-white mb-2"> Go To Dashbord</a>
+                                    @endif
                                 </div>
                                 <div class="col-md-4 col-sm-6 col-xs-6 profile-header-section1 text-right pull-rigth">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-block">Complete Profile</a>
-
+                                    @if($record->profile->phone == '' || $record->profile->phone == 'null' && $record->profile->country_id == '' || $record->profile->country_id == 'null')
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary btn-block">Complete Profile</a>
+                                    @else
                                      <!-- Large modal -->
                               <button type="button" class="btn btn-warning btn-block my-2" data-toggle="modal" data-target=".bd-example-modal-lg">Edit Profile</button>
+                              @endif
                                 </div>
                                
                             </div>
@@ -199,7 +205,7 @@
     $('#state_id').val(null);
     $('#state_id option').remove();
     if (country_id =='' || country_id==='undefined' || country_id=='null') {
-        alert('Please Select a valid Country!!');
+        console.log('Please Select a valid Country!!');
         stateSelect.append('<option value="">Please Select Country First</option>')
     }else{ 
         $.ajax({
@@ -368,6 +374,8 @@ $(document).ready(function(){
     if(activeTab){
         $('#myTab a[href="' + activeTab + '"]').tab('show');
     }
-});
+}); 
+ 
+
 </script>
 @endsection

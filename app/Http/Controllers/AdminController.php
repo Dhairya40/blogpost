@@ -18,6 +18,19 @@ class AdminController extends Controller
     {
         $users = user::all();
         $allposts = blogpost::paginate(20);
-    	return view('backend.admin.index',compact('users','allposts'));
+        return view('backend.admin.index',compact('users','allposts'));
+    }
+    public function postlist()
+    {
+        $users = user::all();
+        $allposts = blogpost::paginate(20);
+        return view('backend.admin.postlist',compact('users','allposts'));
+    }
+
+     public function userlist()
+    {
+        $users = user::with('role','profile')->paginate(20);
+        $allposts = blogpost::paginate(20);
+    	return view('backend.admin.user_list',compact('users'));
     }
 }

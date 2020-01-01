@@ -14,7 +14,7 @@ class BlogpostController extends Controller
 
     public function __construct()
     {
-        // $this->middleware(['auth']);
+        $this->middleware(['auth','verified']);
     }
     /**
      * Display a listing of the resource.
@@ -45,7 +45,8 @@ class BlogpostController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'user_id' => 'required'
+        'user_id' => 'required',
+        'slug'    => 'required|unique:blogpost,slug',
         ]);
          if ($validator->fails()) {
             $data['status']  = 'errer';
@@ -121,7 +122,7 @@ class BlogpostController extends Controller
      */
     public function show(blogpost $blogpost)
     {
-        //
+        return view('frontend.singlepost',compact('blogpost'));
     }
 
     /**

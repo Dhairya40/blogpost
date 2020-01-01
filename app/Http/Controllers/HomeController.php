@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','verified']);
     }
 
     /**
@@ -27,25 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $record  = Auth::user();
-        $country = country::all();
-        $blogtype = BlogpostType::all();
+        $record    = Auth::user();
+        $country   = country::all();
+        $blogtype  = BlogpostType::all();
         return view('home',compact('record','country','blogtype'));
     }
 
-    public function home()
-    { 
-        $blogtype = BlogpostType::all();
-        $blogpost = blogpost::with('BlogpostType')->paginate(10);
-        return view('frontend.index',compact('blogtype','blogpost'));
-    }
-
-    public function about()
-    {
-        return view('frontend.about');
-    }
-    public function contact()
-    {
-        return view('frontend.contact');
-    }
+    
 }

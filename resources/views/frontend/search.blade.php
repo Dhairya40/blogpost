@@ -20,23 +20,6 @@
 @endsection
 @section('content')
   <div class="container">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-        <a class="text-muted" href="#">Subscribe</a>
-      </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#">Large</a>
-      </div>
-      <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="text-muted" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3" focusable="false" role="img"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
-        </a>
-        <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
-      </div>
-    </div>
-  </header>
-
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
       @if(!empty($blogtype))
@@ -55,8 +38,8 @@
     </div>
   </div>
   <div class="row mb-2">
-     @if(count($blogpost))
-    @foreach($blogpost as $post)
+     @if(count($searchResults))
+    @foreach($searchResults as $post)
     <div class="col-md-6">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
@@ -91,7 +74,7 @@
     </div>
     @endforeach 
     <div class="col-md-12">
-      {!! $blogpost->links() !!}
+      {!! $searchResults->links() !!}
     </div>
     @else 
     <div class="container">
@@ -100,9 +83,15 @@
       <img src="{{url('public/images/not-found.jpg') }}" class="img-responsive">
           <h1>OPPS!! No Matching Record Found!! <small><font face="Tahoma" color="red">Error 404</font></small></h1>
           <br />
-          <p>The Category you requested could not be found, either contact your webmaster or try again. Use your browsers <b>Back</b> button to navigate to the page you have prevously come from</p>
+          @if(isset($query) && $query=='NA')
+
+             <h3 style="color:red;"><i><u> OPPS!! Please enter a valid query !!</u></i></h3> 
+             <p style="font-size: 20px;color: royalblue;">The Query you are requested could not be found, make sure you enter right query or try again. <b>Back</b> button to navigate to the page you have prevously come from</p>
+          @else
+          <p style="font-size: 20px;color: royalblue;">The Query you are requested could not be found, make sure you enter right query or try again. <b>Back</b> button to navigate to the page you have prevously come from</p>
           <p><b>Or you could just press this neat little button:</b></p>
-          <a href="{{ url('/')}}" class="btn btn-large btn-info"><i class="icon-home icon-white"></i> Take Me Home</a>
+          @endif
+          <a href="{{ url('/')}}" class="btn btn-large btn-danger"><i class="icon-home icon-white"></i> Take Me Home</a>
       </center>
         <br />
       </div>

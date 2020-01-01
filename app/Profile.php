@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\softDeletes;
 use App\User;
+use App\Country;
+use App\State;
 
 class Profile extends Model
 {
@@ -24,5 +26,16 @@ class Profile extends Model
     {
         return $this->belongsToMany('App\user');
     }
+    
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo('App\State');
+    }
+    
 
 }

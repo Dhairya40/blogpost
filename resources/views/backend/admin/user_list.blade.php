@@ -1,7 +1,7 @@
 @extends('backend.master')
-@section('title')Welcome | Admin Dashboard!! @endsection
+@section('title')Admin | Users!! @endsection
 
-@section('home_active') active @endsection
+@section('customer_active') active @endsection
 
 @section('css')
 <style type="text/css">
@@ -18,8 +18,8 @@
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-danger" id="btn_trashed">Trashed Blogpost</button>
-            <button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#exampleModalCenter">Add Blogpost</button>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="btn_trashed">Trashed Users</button>
+            <button type="button" class="btn btn-sm btn-outline-info" data-toggle="modal" data-target="#exampleModalCenter">Add User</button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
             <span data-feather="calendar"></span>
@@ -30,7 +30,7 @@
    <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Dashboard</a></li> 
-        <li class="breadcrumb-item active">Blogpost</li> 
+        <li class="breadcrumb-item active">Users</li> 
         <!-- <li class="breadcrumb-item active" aria-current="page">@if(@$category){{'Edit Category'}} @else{{'Add Category'}}@endif</li> -->
       </ol>
    </nav>
@@ -51,27 +51,36 @@
           <thead>
             <tr>
               <th>Sr. No.</th>
-              <th>Author</th>
-              <th>Title</th>
-              <th>Headding</th>
-              <th>Short Desc.</th>
-              <th>Long Desc.</th>
+              <th>Name</th>
+              <th>Role</th>  
               <th>Thumbnail</th>
-              <th>Ohter Thumbnail</th>
+              <th>Status</th>
+              <th>Active</th> 
+              <th>Created</th>
             </tr>
           </thead>
           <tbody>
-            @if(!empty($allposts))
-               @foreach($allposts as $post)
+            @if(!empty($users))
+               @foreach($users as $row)
             <tr>
-              <td>{{ ($post->id) ? $post->id:'1' }}</td>
-              <td>Admin</td>
-              <td>{{ str_limit(($post->title) ? $post->title:'Dummy', $limit=20, $end='...') }}</td>
-              <td>{{ str_limit(($post->heading) ? $post->heading:'Dummy', $limit=20, $end='...') }}</td>
-              <td>{{ str_limit(($post->short_content) ? $post->short_content:'Dummy', $limit=20, $end='...') }}</td>
-              <td>{{ str_limit(($post->long_content1) ? $post->long_content1:'Dummy', $limit=20, $end='...') }}</td>
-              <td><img src="{{ url('public/images/'.$post->thumbnail1) }}" class="img-responsive" width="100px"> </td>
-              <td><img src="{{ url('public/images/'.$post->thumbnail2) }}" class="img-responsive" width="100px" height="150px"></td>
+              <td>{{ ($row->id) ? $row->id:'1' }}</td>
+              <td> {{ $row->name }}</td>
+              <td> {{ $row->role->name }}</td>
+              <td> @if(empty($row->profile->profile_image))
+                 <img src="{{ url('public/images/generic-user-purple.png')}}" class="img-responsive rounded-circle" width="100px"> 
+                  @else
+                  <img src="{{ url('public/user_image')}}/{{ $row->profile->profile_image }}" class="rounded-circle img-responsive" style="max-width: 100px;">
+                  @endif
+              </td>
+              <td>@if($row->email_verified_at) <b>Verified</b> @else <b>Unverified</b>@endif</td>
+              <td>
+                @if($row->isOnline()) 
+                <li class="text-success">Online</li>
+                @else
+                <li class="text-danger">Offline</li>
+                @endif
+              </td>
+              <td>{{ changeDateFormate($row->created_at,'d M Y')  }}</td>
             </tr> 
                 @endforeach
             @else
@@ -89,7 +98,7 @@
         </table>
       </div>
       <div class="col-md-12">
-        {{ $allposts->links() }}
+        {{ $users->links() }}
       </div>
     </main>
   </div>

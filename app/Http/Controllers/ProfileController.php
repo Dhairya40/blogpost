@@ -108,13 +108,13 @@ class ProfileController extends Controller
         $profile->back_profile  = $newimg; 
         }  
 
-        $profile->name           =  ($request->name) ? $request->name:'Null';
-        $profile->address        =  ($request->address) ? $request->address:'Null';
-        $profile->country        =  ($request->country) ? $request->country: 'Null';
-        $profile->state          =  ($request->state) ? $request->state: 'Null';
-        $profile->city           =  ($request->city) ? $request->city: 'Null';
-        $profile->about          =  ($request->about) ? $request->about: 'Null';
-        $profile->phone          =  ($request->phone) ? $request->phone: 'Null';
+        $profile->name      = ($request->name) ? $request->name:'Null';
+        $profile->address   = ($request->address) ? $request->address:'Null';
+        $profile->country_id= ($request->country_id) ? $request->country_id: '1';
+        $profile->state_id  = ($request->state_id) ? $request->state_id: '1';
+        $profile->city      = ($request->city) ? $request->city: 'Null';
+        $profile->about     = ($request->about) ? $request->about: 'Null';
+        $profile->phone     = ($request->phone) ? $request->phone: 'Null';
         
         $saved = $profile->save();
         if ($saved) { 

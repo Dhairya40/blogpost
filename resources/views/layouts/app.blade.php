@@ -9,23 +9,33 @@
 
     <title>
         @yield('title')
-        <!-- {{ config('app.name', 'Welcome') }} -->
     </title>
+        <!-- {{ config('app.name', 'Welcome') }} -->
 
     <!-- Scripts -->
     <script src="{{ url('public/js/app.js') }}"  ></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+<!--     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+ -->
     <!-- Styles -->
     <link href="{{ url('public/css/app.css') }}" rel="stylesheet">
     <link href="{{ url('public/css/custom.css') }}" rel="stylesheet">
     <link href="{{url('public/css/select2/select2.min.css')}}" rel="stylesheet">
     <link href="{{url('public/js/toast/toast.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+<style type="text/css">
+.dropdown-menu a:hover {
+  background-color: #ddd;
+  color: black;
+}
 
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+</style>
     @yield('css')
 
 </head>
@@ -72,6 +82,8 @@
                                         {{ __('Logout') }}
                                     </a>
                                     <a class="dropdown-item" href="">My Post
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url('/') }}">Go to Home
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

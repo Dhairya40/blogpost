@@ -14,7 +14,7 @@
     <link href="{{URL::to('/') }}/public/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{url('public/css/dashboard.css')}}" rel="stylesheet">
     <link href="{{url('public/css/select2/select2.min.css')}}" rel="stylesheet">
-    <link href="{{url('public/js/toast/toast.min.css')}}" rel="stylesheet">>   
+    <link href="{{url('public/js/toast/toast.min.css')}}" rel="stylesheet"> 
 
     <style type="text/css">
       .error{

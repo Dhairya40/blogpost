@@ -35,6 +35,11 @@
               <div class="col-md-2"> <label>Profesion</label>  </div>
               <div class="col-md-6"> <p>Developer</p>  </div>
           </div>
+          <div class="row">
+              <div class="col-md-2"> <label><i class="fa fa-map-marker" style="color: red;"></i> Location</label>  </div>
+              <div class="col-md-6"> <p>{{ ($record->profile->city) ? $record->profile->city:'Not Define' }}, @if(!empty($record->profile->state)){{ $record->profile->state->name}} , @endif @if(!empty($record->profile->country)){{ $record->profile->country->name}} @endif</p>  </div>
+          </div>
+          
   </div>
 <div role="tabpanel" class="tab-pane fade" id="buzz">
 <div class="row">
@@ -69,10 +74,19 @@
         </div>
     </div>
     <div class="row">
+          <b><label for="short_content" class="col-form-label">Enter Slug:</label></b>
+          <input type="text" class="form-control" onkeyup="convertToSlug(this.value)" placeholder="Enter Post Slug..." required>
+        <p class="small">{{url('/')}}/<span id="url">{{@$category->slug}}</span></p>
+        <input type="hidden" class="form-control" id="slug" value="{{@$category->slug}}" name="slug" aria-describedby="title" placeholder="Enter slug"> 
+       
+    </div>
+
+    <div class="row">
           <b><label for="short_content" class="col-form-label">Short Content:</label></b>
           <input type="text" class="form-control" name="short_content" placeholder="Short Description Here...">
-        </ > 
+      
     </div>
+
     <div class="row">
         <!-- <div class="form-group"> -->
           <b><label>Long Description-2(Optional)</label></b>
@@ -118,3 +132,19 @@
     </div> 
 </div>
 </div>
+<script type="text/javascript">
+  function convertToSlug(str)
+{
+     //replace all special characters | symbols with a space
+  str = str.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
+  
+  // trim spaces at start and end of string
+  str = str.replace(/^\s+|\s+$/gm,'');
+  
+  // replace space with dash/hyphen
+  str = str.replace(/\s+/g, '-'); 
+  document.getElementById("url").innerHTML= str;
+  $('#slug').val(str);
+  //return str;
+}
+</script>

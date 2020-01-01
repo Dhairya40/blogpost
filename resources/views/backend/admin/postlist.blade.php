@@ -1,7 +1,7 @@
 @extends('backend.master')
-@section('title')Welcome | Admin Dashboard!! @endsection
+@section('title')Admin | Blogpost List!! @endsection
 
-@section('home_active') active @endsection
+@section('post_active') active @endsection
 
 @section('css')
 <style type="text/css">
@@ -31,7 +31,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Dashboard</a></li> 
         <li class="breadcrumb-item active">Blogpost</li> 
-        <!-- <li class="breadcrumb-item active" aria-current="page">@if(@$category){{'Edit Category'}} @else{{'Add Category'}}@endif</li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page">@if(@$postegory){{'Edit Category'}} @else{{'Add Category'}}@endif</li> -->
       </ol>
    </nav>
       <h2>Blogpost List</h2>
@@ -53,11 +53,12 @@
               <th>Sr. No.</th>
               <th>Author</th>
               <th>Title</th>
+              <th>Posted By</th>
               <th>Headding</th>
               <th>Short Desc.</th>
               <th>Long Desc.</th>
               <th>Thumbnail</th>
-              <th>Ohter Thumbnail</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -67,11 +68,18 @@
               <td>{{ ($post->id) ? $post->id:'1' }}</td>
               <td>Admin</td>
               <td>{{ str_limit(($post->title) ? $post->title:'Dummy', $limit=20, $end='...') }}</td>
+              <td>{{ $post->user->name}} </td>
               <td>{{ str_limit(($post->heading) ? $post->heading:'Dummy', $limit=20, $end='...') }}</td>
               <td>{{ str_limit(($post->short_content) ? $post->short_content:'Dummy', $limit=20, $end='...') }}</td>
               <td>{{ str_limit(($post->long_content1) ? $post->long_content1:'Dummy', $limit=20, $end='...') }}</td>
-              <td><img src="{{ url('public/images/'.$post->thumbnail1) }}" class="img-responsive" width="100px"> </td>
-              <td><img src="{{ url('public/images/'.$post->thumbnail2) }}" class="img-responsive" width="100px" height="150px"></td>
+              <td><img src="{{ url('public/images/'.$post->thumbnail1) }}" class="img-responsive" width="100px" style="max-height: 120px !important;"> </td>
+              <td>
+                <a href="#" type="button" id="view_{{$post->id}}" class="btn btn-success btn-sm mb-1" title="View Detail">View</a> | <a href="{{route('blogpost.edit', $post->id)}}" id="edit_{{$post->id}}" class="btn btn-info btn-sm mb-1" title="Edit Detail">Edit</a> | <a href="#" id="remove_{{$post->id}}" class="btn btn-warning btn-sm" title="Remove From List">Trash</a> | <a href="javascript:void(0);" id="delete_{{$post->id}}" onclick="conformDelete({{$post->id}});" class="btn btn-danger btn-sm mb-1" title="Delete">Delete</a> 
+                <form id="delete-categpry_{{$post->id}}" action="{{route('blogpost.destroy', $post->id)}}" method="post" style="display: none;">
+                  @method('DELETE')
+                  @csrf
+                </form>
+              </td>
             </tr> 
                 @endforeach
             @else
@@ -101,94 +109,8 @@
  
 
 <!-- Modal -->
-<div class="modal fade bd-example-modal-lg"  id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Post</h5> 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
+@include('backend.admin.partial.add_blog')
 
-        	<form id="blogpost_form" method="post" enctype="multipart/form-data">
-        		@csrf
-        	
-        	<div class="row">
-        	@if(!empty($users))
-        	<div class="col-md-6">
-        	<div class="form-group">
-        		<b><label>Select User</label></b>
-        		<select name="user_id" class="form-control" id="user_id">
-        			<option value="">Select User</option>
-        			@foreach($users as $user)
-        			<option value="{{ $user->id }}">{{ $user->name }}</option>
-        			@endforeach 
-        		</select>
-            @if($errors->has('user_id'))
-            {{ $errors->first('user_id')}}
-            @endif
-        	</div>
-        	</div>
-        	@endif
-        	<div class="col-md-6">
-        	<div class="form-group">
-        		<b><label>Title</label></b>
-        		 <input type="text" name="title" id="title" placeholder="Title Here..." class="form-control">
-        	</div>
-        	</div>
-        	</div>
-        	<div class="row">
-        	<div class="col-md-6">
-        	<div class="form-group">
-        		<b><label>Heading</label></b>
-        		 <input type="text" name="heading" id="heading" placeholder="Heading Here..." class="form-control">
-        	</div>
-        	</div>
-        	<div class="col-md-6">
-        	<div class="form-group">
-        		<b><label>Short Description</label></b>
-        		 <input type="text" name="short_content" id="short_content" placeholder="Short Description Here..." class="form-control">
-        	</div>
-        	</div>
-        	</div>
-        	<div class="form-group">
-        		<b><label>Long Description(Optional)</label></b>
-        		 <textarea  name="long_content1" id="long_content1" placeholder="Long Description Here..." class="form-control"></textarea> 
-        	</div>
-        	<div class="form-group">
-        		<b><label>Long Description-2(Optional)</label></b>
-        		<textarea name="lomg_content2" id="long_content2" placeholder="Long Description-2 Here..." class="form-control"></textarea>  
-        	</div>
-        	<div class="form-group">
-        		<b><label>Blog Thumbnail</label></b>
-        		 <input type="file" name="thumbnail1" id="thumbnail1" class="form-control">
-        	</div>
-        	<div class="form-group">
-        		<b><label>Another Thumbnail(Optional)</label></b>
-        		 <input type="file" name="thumbnail2" id="thumbnail2" class="form-control">
-        	</div>
-            <div class="form-group">
-        		<b><label>Blog Video(Optional)</label></b>
-        		 <input type="file" name="video1" id="video1" class="form-control">
-        	</div>
-        	<div class="form-group">
-        		<b><label>Another Video(Optional)</label></b>
-        		 <input type="file" name="video2" id="video2" class="form-control">
-        	</div>
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="btn_blogpost" class="btn btn-primary">Save </button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
 @section('script')
 <script type="text/javascript">
    
@@ -271,5 +193,13 @@
      });
 
 });
- </script>
+
+function conformDelete(id){
+let choice=confirm('Are you sure want to delete this item ?');
+if(choice){
+  document.getElementById('delete-categpry_'+id).submit();
+}
+ };
+
+  </script>
 @endsection

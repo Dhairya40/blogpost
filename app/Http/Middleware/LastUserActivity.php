@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-class AdminAutnenticated
+use Cache;
+use Carbon\Carbon;
+class LastUserActivity
 {
     /**
      * Handle an incoming request.
@@ -14,9 +16,10 @@ class AdminAutnenticated
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {    
-        if (Auth::user()->role->name == 'customer') {
-            return redirect('/home')->with('error_message','OPPS!! Your are not allow to access to this Page!!!');
+    {
+        if (Auth::check()) {
+            $expireAt = Carbon::now()->addMinutes('10');
+            Cache::put('user_is_online_' . Auth::user()->id, true, $expireAt);
         }
         return $next($request);
     }

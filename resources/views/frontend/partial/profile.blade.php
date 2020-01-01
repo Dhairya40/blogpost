@@ -28,18 +28,18 @@
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Country:</label>
-            <select class="form-control" name="country" id="country_id">
+            <select class="form-control" name="country_id" id="country_id">
               <option value="" title="Please Select One">Please Select One</option>
               @if(!empty($country))
               @foreach($country as $row)
-              <option value="{{ $row->id }}" @if($record->profile->country==$row->id){{ "selected=='selected'" }} @endif title="{{ $row->description}}">{{ $row->name }}</option>
+              <option value="{{ $row->id }}" @if($record->profile->country_id==$row->id){{ "selected=='selected'" }} @endif title="{{ $row->description}}">{{ $row->name }}</option>
               @endforeach
               @endif 
             </select>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">State:</label>
-            <select class="form-control" name="state" id="state_id">
+            <select class="form-control" name="state_id" id="state_id">
             <option value="">Please Select Country First</option>
              
             </select>

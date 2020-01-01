@@ -7,7 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
 use App\Profile;
-class User extends Authenticatable
+use App\Blogpost;
+use App\Country;
+use App\State;
+use Cache;
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -35,6 +39,16 @@ class User extends Authenticatable
     public function profile(){
         return $this->hasOne('App\Profile');
     }
+
+    public function blogpost(){
+        return $this->hasToMany('App\blogpost');
+    }
+
+    // Check User is online or not
+     public function isOnline(){
+        return Cache::has('user_is_online_' . $this->id);
+    } 
+    
     
     /**
      * The attributes that should be cast to native types.
